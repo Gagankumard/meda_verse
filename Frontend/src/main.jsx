@@ -10,6 +10,9 @@ import Login from "./Pages/Login.jsx";
 import { Provider } from "react-redux";
 import { store } from "./store/store.js";
 import LandingPage from "./Pages/LandingPage.jsx";
+import AllVideos from "./components/AllVideos.jsx";
+import VideoPage from "./Pages/VideoPage.jsx";
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -18,6 +21,16 @@ const router = createBrowserRouter([
       {
         path: "/",
         element: <LandingPage />,
+        children: [
+          {
+            path: "/",
+            element: <AllVideos />,
+          },
+          {
+            path: "/:videoID",
+            element: <VideoPage />,
+          },
+        ],
       },
       {
         path: "/login",

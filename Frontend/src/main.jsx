@@ -13,6 +13,7 @@ import LandingPage from "./Pages/LandingPage.jsx";
 import AllVideos from "./components/AllVideos.jsx";
 import VideoPage from "./Pages/VideoPage.jsx";
 import Publish from "./Pages/Publish.jsx";
+import Profile from "./Pages/Profile.jsx";
 
 const router = createBrowserRouter([
   {
@@ -34,6 +35,10 @@ const router = createBrowserRouter([
           {
             path: "/publish",
             element: <Publish />,
+          },
+          {
+            path: "/profile",
+            element: <Profile />,
           },
         ],
       },

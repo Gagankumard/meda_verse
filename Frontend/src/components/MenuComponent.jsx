@@ -55,28 +55,28 @@ function MenuComponent({ status }) {
   console.log(status);
   return (
     <div>
-      <ul className="flex flex-col justify-start gap-4 mt-10">
-        {menuItems.map((item, i) => (
-          <li
-            key={i}
-            className="flex gap-3 align-middle hover:bg-slate-500/40 p-2"
-            onClick={() => {
-              navigate(item.path);
-            }}
-          >
-            <div className="py-1">{item.icon} </div>
-            <p
-              className={`text-xl py-1 cursor-pointer font-semibold ${
-                location.pathname === item.path
-                  ? "text-violet-700"
-                  : "text-white"
-              }`}
+      {status ? (
+        <ul className="flex flex-col justify-start gap-4 mt-10">
+          {menuItems.map((item, i) => (
+            <li
+              key={i}
+              className="flex gap-3 align-middle hover:bg-slate-500/40 p-2"
+              onClick={() => {
+                navigate(item.path);
+              }}
             >
-              {item.name}
-            </p>
-          </li>
-        ))}
-        {status ? (
+              <div className="py-1">{item.icon} </div>
+              <p
+                className={`text-xl py-1 cursor-pointer font-semibold ${
+                  location.pathname === item.path
+                    ? "text-violet-700"
+                    : "text-white"
+                }`}
+              >
+                {item.name}
+              </p>
+            </li>
+          ))}
           <li
             className="flex gap-3 align-middle hover:bg-slate-500/40 p-2"
             onClick={handleLogout}
@@ -90,41 +90,41 @@ function MenuComponent({ status }) {
               Logout
             </p>
           </li>
-        ) : (
-          <ul className="flex flex-col justify-start gap-4 ">
-            <li
-              className="flex gap-3 align-middle hover:bg-slate-500/40 p-2"
-              onClick={() => {
-                navigate("/login");
-              }}
+        </ul>
+      ) : (
+        <ul className="flex flex-col justify-start gap-4 ">
+          <li
+            className="flex gap-3 align-middle hover:bg-slate-500/40 p-2"
+            onClick={() => {
+              navigate("/login");
+            }}
+          >
+            <div className="py-1">
+              <LoginIcon style={{ fill: "white", fontSize: 20 }} />{" "}
+            </div>
+            <p
+              className={`text-xl py-1 cursor-pointer text-white font-semibold `}
             >
-              <div className="py-1">
-                <LoginIcon style={{ fill: "white", fontSize: 20 }} />{" "}
-              </div>
-              <p
-                className={`text-xl py-1 cursor-pointer text-white font-semibold `}
-              >
-                Login
-              </p>
-            </li>
-            <li
-              className="flex gap-3 align-middle hover:bg-slate-500/40 p-2"
-              onClick={() => {
-                navigate("/signup");
-              }}
+              Login
+            </p>
+          </li>
+          <li
+            className="flex gap-3 align-middle hover:bg-slate-500/40 p-2"
+            onClick={() => {
+              navigate("/signup");
+            }}
+          >
+            <div className="py-1">
+              <PersonAddAltIcon style={{ fill: "white", fontSize: 20 }} />{" "}
+            </div>
+            <p
+              className={`text-xl py-1 cursor-pointer text-white font-semibold `}
             >
-              <div className="py-1">
-                <PersonAddAltIcon style={{ fill: "white", fontSize: 20 }} />{" "}
-              </div>
-              <p
-                className={`text-xl py-1 cursor-pointer text-white font-semibold `}
-              >
-                SignUp
-              </p>
-            </li>
-          </ul>
-        )}
-      </ul>
+              SignUp
+            </p>
+          </li>
+        </ul>
+      )}
     </div>
   );
 }

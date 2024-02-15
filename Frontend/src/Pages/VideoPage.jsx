@@ -27,7 +27,7 @@ function VideoPage() {
   // if (video) console.log(video);
   return (
     <div className=" flex flex-col justify-center items-center pb-10">
-      <div className=" mt-36">
+      <div className=" ">
         <h1 className="text-white font-bold text-3xl my-10">
           Play Now..! Watch Now..! Enjoy Now..!
         </h1>
@@ -75,9 +75,9 @@ function VideoPage() {
           </button>
         </div>
         {showDetails && (
-          <div className="bg-gray-700 p-4 mb-4 rounded-md text-gray-500 ml-4">
+          <div className="bg-gray-700 w-[70vw] flex flex-col justify-center items-center p-4 mb-4 rounded-md text-gray-500 ml-4">
             <p>{video?.createdAt.slice(0, 10)}</p>
-            <p>{video?.description}</p>
+            <p className="text-wrap">{video?.description}</p>
           </div>
         )}
       </div>

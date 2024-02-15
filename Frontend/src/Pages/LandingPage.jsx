@@ -14,7 +14,7 @@ function LandingPage() {
     <div className="bg-gradient-to-r from-slate-900 to-black min-h-screen relative">
       <Header stauts={userStatus} />
       <div className="flex">
-        <div className="sticky mt-[126px] h-[80vh]  bg-neutral-700/40 w-[15vw]  p-4">
+        <div className="sticky top-32 h-full  p-4">
           <div className="flex  align-middle mt-10">
             <ListIcon style={{ fill: "violet", fontSize: 40 }} />
             <label htmlFor="" className="text-white  text-3xl ml-5 font-bold">

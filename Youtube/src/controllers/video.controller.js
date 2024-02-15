@@ -44,7 +44,32 @@ const publishAVideo = asyncHandler(async (req, res) => {
 const getVideoById = asyncHandler(async (req, res) => {
     const { videoId } = req.params
     //TODO: get video by id
-    const video = await Video.findById(videoId)
+    // const video = await Video.findById(videoId)
+    const video = await Video.aggregate([
+        {
+            $match: {
+                _id: new mongoose.Types.ObjectId(videoId)
+            }
+        },
+        {
+            $lookup: {
+                from: "users",
+                localField: "owner",
+                foreignField: "_id",
+                as: "owner",
+                pipeline: [
+                    {
+                        $project: {
+                            fullName: 1,
+                            username: 1,
+                            avatar: 1
+                        }
+                    }
+                ]
+
+            }
+        }
+    ])
     if (!video) {
         throw new ApiError(501, "Couln't get the video from database.")
     }
@@ -74,7 +99,39 @@ const deleteVideo = asyncHandler(async (req, res) => {
 
 const getAllVideos = asyncHandler(async (req, res) => {
     //    const {page} = req.query
-    const allVideos = await Video.find({ isPublished: true })
+    // const allVideos = await Video.find({ isPublished: true })
+    const { page = 1, limit = 10 } = req.query;
+    const skip = (page - 1) * limit;
+    const allVideos = await Video.aggregate([
+        {
+            $match: {
+                isPublished: true,
+            }
+        },
+        {
+            $lookup: {
+                from: "users",
+                localField: "owner",
+                foreignField: "_id",
+                as: "owner",
+                pipeline: [
+                    {
+                        $project: {
+                            fullName: 1,
+                            username: 1,
+                            avatar: 1
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            $skip: skip
+        },
+        {
+            $limit: parseInt(limit)
+        },
+    ])
     if (!allVideos) {
         throw new ApiError(401, "Could not get the videos from database.")
     }

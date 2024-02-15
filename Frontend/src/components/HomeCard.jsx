@@ -37,7 +37,7 @@ export default function ActionAreaCard({
           />
           {hover && (
             <div className="absolute text-white top-0 h-full w-full flex justify-center items-center bg-black/40">
-              <p>{description.slice(0, 15)}</p>
+              <p className="font-semibold">{description.slice(0, 15)}</p>
             </div>
           )}
         </div>

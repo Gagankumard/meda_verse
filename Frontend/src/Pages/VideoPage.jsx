@@ -4,6 +4,9 @@ import { useParams } from "react-router-dom";
 import ReactPlayer from "react-player";
 import { IoIosArrowDropdownCircle } from "react-icons/io";
 import Comments from "../components/Comments";
+import { Avatar } from "@mui/material";
+import ThumbUpIcon from "@mui/icons-material/ThumbUp";
+import ThumbDownIcon from "@mui/icons-material/ThumbDown";
 function VideoPage() {
   const { videoID } = useParams();
   const [video, setVideo] = useState();
@@ -21,10 +24,13 @@ function VideoPage() {
     };
     getVideo();
   }, []);
-  if (video) console.log(video);
+  // if (video) console.log(video);
   return (
     <div className=" flex flex-col justify-center items-center pb-10">
-      <div className=" mt-24">
+      <div className=" mt-36">
+        <h1 className="text-white font-bold text-3xl my-10">
+          Play Now..! Watch Now..! Enjoy Now..!
+        </h1>
         <ReactPlayer
           url={video?.videoFile}
           playIcon
@@ -53,13 +59,13 @@ function VideoPage() {
           />
         </div>
         <div className="flex justify-between mb-4">
-          <div className="flex gap-4 align-middle ">
-            <img
+          <div className="flex gap-4 align-middle justify-center ">
+            <Avatar
               src={video?.owner[0].avatar}
-              height={50}
-              width={50}
-              className="rounded-full ring-2 ring-violet-700 ml-4"
+              size="50"
+              className="my-auto"
             />
+
             <h1 className="text-3xl font-semibold p-2 text-violet-700">
               {video?.owner[0].username}
             </h1>
@@ -75,7 +81,15 @@ function VideoPage() {
           </div>
         )}
       </div>
-      <Comments id={video?._id} />
+      <div className="mb-10 flex w-[60vw] justify-start">
+        <div className="bg-violet-700 p-3 rounded-s-md hover:bg-violet-900 transition">
+          <ThumbUpIcon style={{ fill: "white" }} />
+        </div>
+        <div className="bg-violet-700 p-3 rounded-e-md hover:bg-violet-900 transition">
+          <ThumbDownIcon style={{ fill: "white" }} />
+        </div>
+      </div>
+      <div>{video && <Comments id={video?._id} />}</div>
     </div>
   );
 }

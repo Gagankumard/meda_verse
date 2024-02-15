@@ -12,6 +12,7 @@ import { store } from "./store/store.js";
 import LandingPage from "./Pages/LandingPage.jsx";
 import AllVideos from "./components/AllVideos.jsx";
 import VideoPage from "./Pages/VideoPage.jsx";
+import Publish from "./Pages/Publish.jsx";
 
 const router = createBrowserRouter([
   {
@@ -29,6 +30,10 @@ const router = createBrowserRouter([
           {
             path: "/:videoID",
             element: <VideoPage />,
+          },
+          {
+            path: "/publish",
+            element: <Publish />,
           },
         ],
       },

@@ -15,9 +15,14 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import toast, { Toaster } from "react-hot-toast";
 import { BeatLoader } from "react-spinners";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { login } from "../store/authSlice";
+import { useDispatch } from "react-redux";
 const theme = createTheme();
 
 export default function SignUp() {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [error, setError] = React.useState();
   const [isLoading, setIsLoading] = React.useState(false);
   const [avatar, setAvatar] = React.useState();
@@ -47,19 +52,25 @@ export default function SignUp() {
         // console.log("hello");
         const res = await axios.post(
           "/api/v1/users/register",
-          { avatar, coverImage },
           {
             email: data.get("email"),
             password: data.get("password"),
             fullName: data.get("fullName"),
             username: data.get("username"),
+            avatar,
+            coverImage,
+          },
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
           }
         );
         console.log("hello", res);
         if (res?.status === 200) {
           console.log("success", res);
-          dispatch(login(res?.data?.data?.user));
-          setIsLoading(false);
+          dispatch(login(res?.data?.data?.createdUser));
+          console.log("user", res?.data?.data?.createdUser);
           navigate("/");
         }
       } catch (err) {
@@ -70,12 +81,11 @@ export default function SignUp() {
         setIsLoading(false);
         // console.log(errorMessage);
         setError(errorMessage);
-        console.log(errorMessage);
         // console.log(err);
       }
     }
   };
-  console.log(avatar);
+  console.log("avatara", avatar);
   React.useEffect(() => {
     if (error) {
       toast.error(error);

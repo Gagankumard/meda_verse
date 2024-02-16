@@ -19,8 +19,8 @@ export default function ActionAreaCard({
     navigate(`/${_id}`);
   };
   return (
-    <Card sx={{ maxWidth: 300 }} onClick={handleClick}>
-      <CardActionArea className="">
+    <Card sx={{ maxWidth: 250 }} onClick={handleClick}>
+      <CardActionArea>
         <div
           className="relative"
           onMouseOver={() => setHover(true)}
@@ -30,14 +30,14 @@ export default function ActionAreaCard({
             component="img"
             image={thumbnail}
             alt="thumbnail"
-            className="object-cover h-48 w-48 "
+            className="object-contain h-48 w-48 "
             onError={(e) => {
               e.target.src = Defaultthumbnail; // Replace 'path_to_default_image' with the URL or path to your default image
             }}
           />
           {hover && (
             <div className="absolute text-white top-0 h-full w-full flex justify-center items-center bg-black/40">
-              <p className="font-semibold">{description.slice(0, 15)}</p>
+              <p className="font-semibold">{description.slice(0, 15)}...</p>
             </div>
           )}
         </div>

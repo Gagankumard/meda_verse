@@ -13,9 +13,7 @@ function AllVideos() {
     const fetchVideo = async () => {
       setIsLoading(true);
       try {
-        const res = await axios.get("/api/v1/videos/getAllVideos", {
-          params: { limit: 8 },
-        });
+        const res = await axios.get("/api/v1/videos/getAllVideos");
         setVideos(res?.data?.data);
       } catch (err) {
         console.log(err);
@@ -32,16 +30,19 @@ function AllVideos() {
           <h1 className="text-3xl font-bold text-white mb-10 p-3 ">
             All Videos
           </h1>
-          <ul className="flex gap-10 flex-wrap">
+          <ul className="flex gap-16 justify-center flex-wrap">
             {videos &&
-              videos.map((vid) => (
-                <li
-                  key={vid?._id}
-                  className=" hover:shadow-violet-700 hover:shadow-xl transition"
-                >
-                  <ActionAreaCard {...vid} />
-                </li>
-              ))}
+              videos
+                .slice()
+                .reverse()
+                .map((vid) => (
+                  <li
+                    key={vid?._id}
+                    className=" hover:shadow-violet-700 hover:shadow-xl transition"
+                  >
+                    <ActionAreaCard {...vid} />
+                  </li>
+                ))}
           </ul>
         </div>
       ) : (

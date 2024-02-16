@@ -12,9 +12,11 @@ function LandingPage() {
   const [sideBar, setSideBar] = useState(false);
 
   return (
-    <div className="bg-gradient-to-r from-slate-900 to-black min-h-screen relative">
-      <Header stauts={userStatus} />
-      <div className="flex">
+    <div className="bg-gradient-to-r from-slate-900 to-black min-h-screen ">
+      <div className="relative">
+        <Header stauts={userStatus} />
+      </div>
+      <div className="flex relative">
         <div className="sticky top-32 h-full  p-4">
           <div className="flex  align-middle mt-10">
             <ListIcon style={{ fill: "violet", fontSize: 40 }} />

@@ -92,7 +92,7 @@ function MenuComponent({ status }) {
           </li>
         </ul>
       ) : (
-        <ul className="flex flex-col justify-start gap-4 ">
+        <ul className="flex flex-col justify-start gap-4 mt-10">
           <li
             className="flex gap-3 align-middle hover:bg-slate-500/40 p-2"
             onClick={() => {

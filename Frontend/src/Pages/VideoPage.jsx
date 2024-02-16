@@ -13,6 +13,8 @@ function VideoPage() {
   const [video, setVideo] = useState();
   const [showDetails, setShowDetails] = useState(false);
   const navigate = useNavigate();
+  const [subInfo, setSubInfo] = useState();
+  const [render, setRender] = useState(false);
   useEffect(() => {
     const getVideo = async () => {
       try {
@@ -26,12 +28,41 @@ function VideoPage() {
     };
     getVideo();
   }, []);
+  useEffect(() => {
+    const getUserInfo = async () => {
+      try {
+        const res = await axios.get(
+          `/api/v1/users/get-user-channel/${video?.owner[0].username}`
+        );
+        if (res.status === 200) {
+          console.log(res);
+          setSubInfo(res?.data?.data);
+        }
+      } catch (err) {
+        console.log(err.response);
+      }
+    };
+    if (video) getUserInfo();
+  }, [render, video]);
   const userdata = useSelector((state) => state.userData);
   const handleNavigate = () => {
     if (video?.owner[0].username === userdata?.username) {
       navigate("/profile");
     } else {
       navigate(`/profile/${video?.owner[0].username}`);
+    }
+  };
+  const handleSubscribe = async () => {
+    try {
+      const res = await axios.post(
+        `/api/v1/subscription/toggleSubscribe/${subInfo?._id}`
+      );
+      if (res.status === 200 || res.status === 201) {
+        setRender((prev) => !prev);
+        console.log(res);
+      }
+    } catch (err) {
+      console.log(err.response);
     }
   };
   // if (video) console.log(video);
@@ -83,8 +114,13 @@ function VideoPage() {
               {video?.owner[0].username}
             </h1>
           </div>
-          <button className="p-4 hover:bg-violet-950 text-white bg-violet-700 rounded-lg font-semibold">
-            Subscribe
+          <button
+            className={`${
+              subInfo?.isSubscribed ? "bg-red-600" : "bg-violet-700"
+            } p-4 rounded-md`}
+            onClick={handleSubscribe}
+          >
+            {subInfo?.isSubscribed ? "UnSubscribe" : "Subscribe"}
           </button>
         </div>
         {showDetails && (

@@ -8,7 +8,7 @@ function Header({ status }) {
   const [searchQuery, setSearchQuery] = useState("");
 
   return (
-    <div className="h-32 fixed w-full bg-black flex justify-around shadow-violet-700 shadow-xl items-center text-white">
+    <div className="h-32 fixed w-full bg-black flex justify-around shadow-violet-700 shadow-xl items-center text-white z-[9999]">
       <div
         className="p-3"
         onClick={() => {

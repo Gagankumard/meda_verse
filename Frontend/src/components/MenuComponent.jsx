@@ -39,7 +39,7 @@ function MenuComponent({ status }) {
     {
       name: "Subscribed",
       icon: <SubscriptionsIcon style={{ fill: "white", fontSize: 20 }} />,
-      path: "/subscribed",
+      path: "/subscribedChannels",
     },
     {
       name: "Profile",

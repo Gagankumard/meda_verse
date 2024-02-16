@@ -6,6 +6,7 @@ import ActionAreaCard from "../components/HomeCard";
 import { Outlet } from "react-router-dom";
 import ListIcon from "@mui/icons-material/List";
 import MenuComponent from "../components/MenuComponent";
+import LoggedOut from "../components/LoggedOut";
 function LandingPage() {
   const userStatus = useSelector((state) => state.status);
   const [sideBar, setSideBar] = useState(false);
@@ -24,7 +25,7 @@ function LandingPage() {
           <MenuComponent status={userStatus} />
         </div>
         <div className="mx-10 w-[80vw] flex flex-col  pt-36">
-          <Outlet />
+          {userStatus ? <Outlet /> : <LoggedOut />}
         </div>
       </div>
     </div>

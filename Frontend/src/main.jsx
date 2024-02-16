@@ -14,6 +14,8 @@ import AllVideos from "./components/AllVideos.jsx";
 import VideoPage from "./Pages/VideoPage.jsx";
 import Publish from "./Pages/Publish.jsx";
 import Profile from "./Pages/Profile.jsx";
+import UserProfile from "./Pages/UserProfile.jsx";
+import SubscribedChannels from "./Pages/SubscribedChannels.jsx";
 
 const router = createBrowserRouter([
   {
@@ -39,6 +41,14 @@ const router = createBrowserRouter([
           {
             path: "/profile",
             element: <Profile />,
+          },
+          {
+            path: "/profile/:username",
+            element: <UserProfile />,
+          },
+          {
+            path: "/subscribedChannels",
+            element: <SubscribedChannels />,
           },
         ],
       },

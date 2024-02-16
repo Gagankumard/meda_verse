@@ -1,16 +1,18 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import ReactPlayer from "react-player";
 import { IoIosArrowDropdownCircle } from "react-icons/io";
 import Comments from "../components/Comments";
 import { Avatar } from "@mui/material";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import ThumbDownIcon from "@mui/icons-material/ThumbDown";
+import { useSelector } from "react-redux";
 function VideoPage() {
   const { videoID } = useParams();
   const [video, setVideo] = useState();
   const [showDetails, setShowDetails] = useState(false);
+  const navigate = useNavigate();
   useEffect(() => {
     const getVideo = async () => {
       try {
@@ -24,6 +26,14 @@ function VideoPage() {
     };
     getVideo();
   }, []);
+  const userdata = useSelector((state) => state.userData);
+  const handleNavigate = () => {
+    if (video?.owner[0].username === userdata?.username) {
+      navigate("/profile");
+    } else {
+      navigate(`/profile/${video?.owner[0].username}`);
+    }
+  };
   // if (video) console.log(video);
   return (
     <div className=" flex flex-col justify-center items-center pb-10">
@@ -66,7 +76,10 @@ function VideoPage() {
               className="my-auto"
             />
 
-            <h1 className="text-3xl font-semibold p-2 text-violet-700">
+            <h1
+              className="text-3xl font-semibold p-2 text-violet-700 cursor-pointer"
+              onClick={handleNavigate}
+            >
               {video?.owner[0].username}
             </h1>
           </div>

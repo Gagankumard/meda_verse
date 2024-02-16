@@ -62,7 +62,8 @@ const getVideoById = asyncHandler(async (req, res) => {
                         $project: {
                             fullName: 1,
                             username: 1,
-                            avatar: 1
+                            avatar: 1,
+                            _id: 1
                         }
                     }
                 ]
@@ -100,12 +101,13 @@ const deleteVideo = asyncHandler(async (req, res) => {
 const getAllVideos = asyncHandler(async (req, res) => {
     //    const {page} = req.query
     // const allVideos = await Video.find({ isPublished: true })
-    const { page = 1, limit = 10 } = req.query;
+    const { page = 1, limit = 10, userId = "" } = req.query;
     const skip = (page - 1) * limit;
-    const allVideos = await Video.aggregate([
+    const pipeline = [
         {
             $match: {
                 isPublished: true,
+
             }
         },
         {
@@ -131,7 +133,11 @@ const getAllVideos = asyncHandler(async (req, res) => {
         {
             $limit: parseInt(limit)
         },
-    ])
+    ]
+    if (userId) {
+        pipeline.splice(2, 0, { $match: { "owner._id": new mongoose.Types.ObjectId(userId) } });
+    }
+    const allVideos = await Video.aggregate(pipeline);
     if (!allVideos) {
         throw new ApiError(401, "Could not get the videos from database.")
     }

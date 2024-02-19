@@ -15,6 +15,8 @@ function VideoPage() {
   const navigate = useNavigate();
   const [subInfo, setSubInfo] = useState();
   const [render, setRender] = useState(false);
+  const [likeStats, setLikeStats] = useState();
+  const [likeToggle, setLikeToggle] = useState();
   useEffect(() => {
     const getVideo = async () => {
       try {
@@ -26,8 +28,23 @@ function VideoPage() {
         console.log(err);
       }
     };
+
     getVideo();
   }, []);
+  useEffect(() => {
+    const getLikeDetails = async () => {
+      try {
+        const res = await axios.get(`/api/v1/likes/likeStats/${videoID}`);
+        if (res.status === 200) {
+          setLikeStats(res?.data?.data[0]);
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    getLikeDetails();
+  }, [likeToggle]);
+  if (likeStats) console.log("likestats", likeStats);
   useEffect(() => {
     const getUserInfo = async () => {
       try {
@@ -65,6 +82,16 @@ function VideoPage() {
       console.log(err.response);
     }
   };
+  const handleLike = async () => {
+    try {
+      const res = await axios.post(`/api/v1/likes/videoLiked/${videoID}`);
+      if (res.data.success) {
+        setLikeToggle((prev) => !prev);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
   // if (video) console.log(video);
   return (
     <div className=" flex flex-col justify-center items-center pb-10">
@@ -99,6 +126,14 @@ function VideoPage() {
             }}
           />
         </div>
+        <div>
+          {showDetails && (
+            <div className="bg-gray-700  flex flex-col justify-center items-center p-4 mb-4 rounded-md text-gray-500 ml-4">
+              <p>{video?.createdAt.slice(0, 10)}</p>
+              <p className="text-wrap">{video?.description}</p>
+            </div>
+          )}
+        </div>
         <div className="flex justify-between mb-4">
           <div className="flex gap-4 align-middle justify-center ">
             <Avatar
@@ -116,26 +151,26 @@ function VideoPage() {
           </div>
           <button
             className={`${
-              subInfo?.isSubscribed ? "bg-red-600" : "bg-violet-700"
-            } p-4 rounded-md`}
+              !subInfo?.isSubscribed ? "bg-red-600" : "bg-violet-700"
+            } p-4 rounded-md font-semibold antialiased`}
             onClick={handleSubscribe}
           >
             {subInfo?.isSubscribed ? "UnSubscribe" : "Subscribe"}
           </button>
         </div>
-        {showDetails && (
-          <div className="bg-gray-700 w-[70vw] flex flex-col justify-center items-center p-4 mb-4 rounded-md text-gray-500 ml-4">
-            <p>{video?.createdAt.slice(0, 10)}</p>
-            <p className="text-wrap">{video?.description}</p>
-          </div>
-        )}
       </div>
       <div className="mb-10 flex w-[60vw] justify-start">
-        <div className="bg-violet-700 p-3 rounded-s-md hover:bg-violet-900 transition">
+        <div
+          className={`${
+            !likeStats?.likedByCurrentUser ? "bg-black" : "bg-violet-700"
+          } p-3 rounded-s-md hover:bg-violet-900 transition`}
+          onClick={handleLike}
+        >
+          {console.log(likeStats?.likedByCurrentUser)}
           <ThumbUpIcon style={{ fill: "white" }} />
         </div>
-        <div className="bg-violet-700 p-3 rounded-e-md hover:bg-violet-900 transition">
-          <ThumbDownIcon style={{ fill: "white" }} />
+        <div className="bg-violet-700  p-3 rounded-e-md hover:bg-violet-900 transition">
+          <h1 className="text-white font-bold pr-1">{likeStats?.totalLikes}</h1>
         </div>
       </div>
       <div>{video && <Comments id={video?._id} />}</div>

@@ -31,7 +31,7 @@ function SubscribedChannels() {
           Channels you Subscribed
         </h1>
       </div>
-      <div className="flex overflow-scroll  gap-10">
+      <div className="flex flex-wrap justify-center items-center  gap-10">
         {channel &&
           channel
             .slice()

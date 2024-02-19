@@ -47,11 +47,6 @@ export default function BottomActionsCard({ owner, content, createdAt }) {
           {content}
         </Typography>
       </CardContent>
-      <CardActions buttonFlex="0 1 120px">
-        <IconButton variant="outlined" color="white" sx={{ mr: "auto" }}>
-          <FavoriteBorder />
-        </IconButton>
-      </CardActions>
     </Card>
   );
 }

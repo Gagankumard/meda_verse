@@ -8,6 +8,20 @@ const toggleVideoLike = asyncHandler(async (req, res) => {
     const { videoId } = req.params
     //TODO: toggle like on video
     const like = await Like.findOneAndDelete({ likedBy: req?.user._id, video: videoId })
+
+    if (like) {
+
+        return res.status(201).json(new ApiResponse(201, like, "Successfully unliked"))
+    } else {
+        const newLike = await Like.create({ likedBy: req?.user._id, video: videoId })
+        return res.status(200).json(new ApiResponse(200, newLike, "Successfully liked"))
+
+    }
+})
+
+
+const likesAndStatus = asyncHandler(async (req, res) => {
+    const { videoId } = req.params
     const pipeline = [
         {
             $match: {
@@ -18,42 +32,29 @@ const toggleVideoLike = asyncHandler(async (req, res) => {
             $group: {
                 _id: null,
                 totalLikes: { $sum: 1 },
-                likedByCurrentUser: {
-                    $addToSet: {
-                        $cond: {
-                            if: { $eq: ["$likedBy", req.user?._id] },
-                            then: "$likedBy",
-                            else: null
-                        }
-                    }
-                }
+                likedByUsers: { $addToSet: "$likedBy" }
             }
         },
         {
             $project: {
                 totalLikes: 1,
-                likedByCurrentUser: {
-                    $cond: {
-                        if: { $in: [req.user?._id, "$likedByCurrentUser"] },
-                        then: true,
-                        else: false
-                    }
-                }
+                likedByCurrentUser: { $in: [req.user?._id, "$likedByUsers"] }
             }
         }
     ];
-
-    if (like) {
-        const likeStats = await Like.aggregate(pipeline)
-        return res.status(201).json(new ApiResponse(201, likeStats, "Successfully unliked"))
-    } else {
-        const newLike = await Like.create({ likedBy: req?.user._id, video: videoId })
-        const likeStats = await Like.aggregate(pipeline)
-
-        return res.status(200).json(new ApiResponse(200, likeStats, "Successfully liked"))
+    const likeStats = await Like.aggregate(pipeline)
+    if (!likeStats) {
+        throw new ApiError(500, "Somethings wrong in db")
     }
+    if (likeStats.length > 0)
+        return res.status(200).json(new ApiResponse(200, likeStats, "Successfully fetched"))
+    else
+        return res.status(200).json(new ApiResponse(200, [{
+            "_id": null,
+            "totalLikes": 0,
+            "likedByCurrentUser": false
+        }], "Successfully fetched"))
 })
-
 // const toggleCommentLike = asyncHandler(async (req, res) => {
 //     const { commentId } = req.params
 //     //TODO: toggle like on comment
@@ -75,5 +76,6 @@ export {
     // toggleCommentLike,
     // toggleTweetLike,
     toggleVideoLike,
-    getLikedVideos
+    getLikedVideos,
+    likesAndStatus
 }

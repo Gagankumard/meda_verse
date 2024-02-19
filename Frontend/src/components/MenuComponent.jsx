@@ -54,7 +54,7 @@ function MenuComponent({ status }) {
   ];
   console.log(status);
   return (
-    <div>
+    <div className="antialiased">
       {status ? (
         <ul className="flex flex-col justify-start gap-4 mt-10">
           {menuItems.map((item, i) => (

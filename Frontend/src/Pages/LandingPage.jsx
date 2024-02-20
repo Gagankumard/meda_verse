@@ -26,7 +26,7 @@ function LandingPage() {
           </div>
           <MenuComponent status={userStatus} />
         </div>
-        <div className="mx-10 w-[80vw] flex flex-col  pt-36">
+        <div className="mx-10 w-[80vw] flex flex-col min-h-screen  pt-36">
           {userStatus ? <Outlet /> : <LoggedOut />}
         </div>
       </div>

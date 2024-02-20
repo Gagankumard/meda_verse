@@ -27,7 +27,7 @@ function SubscribedChannels() {
   return (
     <div className="  pb-10">
       <div>
-        <h1 className="text-3xl font-bold text-white  mt-24 p-3 ">
+        <h1 className="text-3xl font-bold text-white p-3 ">
           Channels you Subscribed
         </h1>
       </div>

@@ -28,8 +28,22 @@ function VideoPage() {
         console.log(err);
       }
     };
+    const addToWatchHisrory = async () => {
+      try {
+        const res = await axios.patch(
+          `/api/v1/users/addToWatchHistory/${videoID}`
+        );
+        console.log("watch", res);
+        if (res.data.success) {
+          console.log("Added To watchHistory");
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    };
 
     getVideo();
+    addToWatchHisrory();
   }, []);
   useEffect(() => {
     const getLikeDetails = async () => {

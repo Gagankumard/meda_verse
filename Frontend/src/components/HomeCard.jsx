@@ -13,6 +13,7 @@ export default function ActionAreaCard({
   _id,
   description,
 }) {
+  console.log("owner", owner);
   const [hover, setHover] = React.useState(false);
   const navigate = useNavigate();
   const handleClick = () => {
@@ -30,7 +31,7 @@ export default function ActionAreaCard({
             component="img"
             image={thumbnail}
             alt="thumbnail"
-            className="object-contain h-48 w-48 "
+            className="object-contain h-48 "
             onError={(e) => {
               e.target.src = Defaultthumbnail; // Replace 'path_to_default_image' with the URL or path to your default image
             }}
@@ -44,7 +45,7 @@ export default function ActionAreaCard({
         <div className="flex bg-black">
           <div className="flex items-center justify-center pl-2 py-2">
             <img
-              src={owner[0]?.avatar}
+              src={owner[0]?.avatar || owner.avatar}
               className="object-cover rounded-full h-10 ring-2 ring-violet-700 w-10"
             />
           </div>
@@ -53,7 +54,7 @@ export default function ActionAreaCard({
               {title}
             </Typography>
             <Typography variant="body2" color="white" className="ml-3">
-              {owner[0]?.username}
+              {owner[0]?.username || owner?.username}
             </Typography>
           </CardContent>
         </div>

@@ -16,6 +16,7 @@ import Publish from "./Pages/Publish.jsx";
 import Profile from "./Pages/Profile.jsx";
 import UserProfile from "./Pages/UserProfile.jsx";
 import SubscribedChannels from "./Pages/SubscribedChannels.jsx";
+import WatchHistory from "./Pages/WatchHistory.jsx";
 
 const router = createBrowserRouter([
   {
@@ -49,6 +50,10 @@ const router = createBrowserRouter([
           {
             path: "/subscribedChannels",
             element: <SubscribedChannels />,
+          },
+          {
+            path: "/history",
+            element: <WatchHistory />,
           },
         ],
       },

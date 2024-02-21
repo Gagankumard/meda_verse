@@ -5,8 +5,8 @@ import { SearchBar } from "./SearchBar";
 
 function Header({ status }) {
   const navigate = useNavigate();
-  const [searchQuery, setSearchQuery] = useState("");
-
+  // const [searchQuery, setSearchQuery] = useState("");
+  // console.log(searchQuery);
   return (
     <div className="h-32 fixed w-full bg-black flex justify-around shadow-violet-700 shadow-xl items-center text-white z-[9999]">
       <div
@@ -20,7 +20,7 @@ function Header({ status }) {
         </h1>
       </div>
       <div>
-        <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
+        <SearchBar />
       </div>
     </div>
   );

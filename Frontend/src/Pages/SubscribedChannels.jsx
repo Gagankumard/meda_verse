@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 function SubscribedChannels() {
-  const userData = useSelector((state) => state.userData);
+  const userData = useSelector((state) => state.auth.userData);
   const navigate = useNavigate();
   const [channel, setChannel] = useState();
   useEffect(() => {

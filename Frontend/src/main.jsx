@@ -17,6 +17,7 @@ import Profile from "./Pages/Profile.jsx";
 import UserProfile from "./Pages/UserProfile.jsx";
 import SubscribedChannels from "./Pages/SubscribedChannels.jsx";
 import WatchHistory from "./Pages/WatchHistory.jsx";
+import UpdateProfile from "./components/UpdateProfile.jsx";
 
 const router = createBrowserRouter([
   {
@@ -42,6 +43,12 @@ const router = createBrowserRouter([
           {
             path: "/profile",
             element: <Profile />,
+            children: [
+              {
+                path: "/profile/update",
+                element: <UpdateProfile />,
+              },
+            ],
           },
           {
             path: "/profile/:username",

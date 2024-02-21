@@ -8,9 +8,9 @@ import ListIcon from "@mui/icons-material/List";
 import MenuComponent from "../components/MenuComponent";
 import LoggedOut from "../components/LoggedOut";
 function LandingPage() {
-  const userStatus = useSelector((state) => state.status);
-  const [sideBar, setSideBar] = useState(false);
+  const userStatus = useSelector((state) => state.auth.status);
 
+  // console.log("search term", serachTerm);
   return (
     <div className="bg-gradient-to-r from-slate-900 to-black min-h-screen ">
       <div className="relative">

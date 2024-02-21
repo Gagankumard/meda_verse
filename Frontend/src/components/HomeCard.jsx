@@ -13,7 +13,7 @@ export default function ActionAreaCard({
   _id,
   description,
 }) {
-  console.log("owner", owner);
+  // console.log("owner", owner);
   const [hover, setHover] = React.useState(false);
   const navigate = useNavigate();
   const handleClick = () => {
@@ -33,7 +33,7 @@ export default function ActionAreaCard({
             alt="thumbnail"
             className="object-contain h-48 "
             onError={(e) => {
-              e.target.src = Defaultthumbnail; // Replace 'path_to_default_image' with the URL or path to your default image
+              e.target.src = Defaultthumbnail;
             }}
           />
           {hover && (

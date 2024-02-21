@@ -75,7 +75,7 @@ function VideoPage() {
     };
     if (video) getUserInfo();
   }, [render, video]);
-  const userdata = useSelector((state) => state.userData);
+  const userdata = useSelector((state) => state.auth.userData);
   const handleNavigate = () => {
     if (video?.owner[0].username === userdata?.username) {
       navigate("/profile");

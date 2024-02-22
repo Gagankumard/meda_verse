@@ -78,7 +78,7 @@ function UserProfile() {
             <div>
               <button
                 className={`${
-                  subInfo?.isSubscribed ? "bg-red-600" : "bg-violet-700"
+                  !subInfo?.isSubscribed ? "bg-red-600" : "bg-violet-700"
                 } p-2 rounded-md`}
                 onClick={handleSubscribe}
               >

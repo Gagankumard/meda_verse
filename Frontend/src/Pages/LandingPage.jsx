@@ -42,7 +42,7 @@ function LandingPage() {
   }
   // console.log("search term", serachTerm);
   return (
-    <div className="bg-gradient-to-r from-slate-900 to-black min-h-screen ">
+    <div className="bg-black/65  bg-blend-screen ">
       <div className="relative">
         <Header stauts={userStatus} />
       </div>

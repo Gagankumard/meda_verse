@@ -163,14 +163,16 @@ function VideoPage() {
               {video?.owner[0].username}
             </h1>
           </div>
-          <button
-            className={`${
-              !subInfo?.isSubscribed ? "bg-red-600" : "bg-violet-700"
-            } p-4 rounded-md font-semibold antialiased`}
-            onClick={handleSubscribe}
-          >
-            {subInfo?.isSubscribed ? "UnSubscribe" : "Subscribe"}
-          </button>
+          {video?.owner[0].username !== userdata.username && (
+            <button
+              className={`${
+                !subInfo?.isSubscribed ? "bg-red-600" : "bg-violet-700"
+              } p-4 rounded-md font-semibold antialiased`}
+              onClick={handleSubscribe}
+            >
+              {subInfo?.isSubscribed ? "UnSubscribe" : "Subscribe"}
+            </button>
+          )}
         </div>
       </div>
       <div className="mb-10 flex w-[60vw] justify-start">

@@ -11,6 +11,7 @@ export default {
     extend: {
       backgroundImage: {
         'signup': 'url("/src/assets/signup.jpg")',
+        'blk': 'url("/src/assets/bg.jpg")',
       }
     },
   },

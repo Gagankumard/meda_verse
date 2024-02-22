@@ -55,7 +55,7 @@ export default function ActionAreaCard({
             />
           </div>
           <CardContent className=" text-white">
-            <Typography gutterBottom variant="h5" component="div">
+            <Typography gutterBottom variant="p" component="div">
               {title}
             </Typography>
             <Typography variant="body2" color="white" className="ml-3">

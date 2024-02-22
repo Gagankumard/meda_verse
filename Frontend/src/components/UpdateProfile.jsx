@@ -1,19 +1,22 @@
 import { Grid, TextField } from "@mui/material";
 import axios from "axios";
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { BeatLoader } from "react-spinners";
 import { login } from "../store/authSlice";
+import toast, { Toaster } from "react-hot-toast";
 
 function UpdateProfile() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const userData = useSelector((state) => state.auth.userData);
   const [page, setPage] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
-  const [emailAndUsername, setEmailAndUsername] = useState({
+  const [error, setError] = useState();
+  const [emailAndFullname, setEmailAndFullname] = useState({
     email: null,
-    username: null,
+    fullName: null,
   });
   const [password, setPassword] = useState({
     oldPassword: null,
@@ -21,6 +24,30 @@ function UpdateProfile() {
   });
   const [file, setFile] = useState({ avatar: null, coverImage: null });
   // console.log(file);
+  const handleEmailChange = async () => {
+    try {
+      setIsLoading(true);
+      if (emailAndFullname.email || emailAndFullname.fullName) {
+        const res = await axios.patch("/api/v1/users/update-account-details", {
+          email: emailAndFullname.email || userData.email,
+          fullName: emailAndFullname.fullName || userData.fullName,
+        });
+        if (res?.data?.success) {
+          dispatch(login(res?.data?.data));
+          setIsLoading(false);
+          navigate("/profile");
+        }
+      }
+    } catch (err) {
+      const startIndex =
+        err.response?.data.indexOf("Error: ") + "Error: ".length;
+      const endIndex = err.response?.data.indexOf("<br>");
+      const errorMessage = err.response?.data.substring(startIndex, endIndex);
+      setIsLoading(false);
+      console.log(errorMessage);
+      setError(errorMessage);
+    }
+  };
   const handleAvatar = async () => {
     try {
       if (file.avatar) {
@@ -43,6 +70,7 @@ function UpdateProfile() {
       }
     } catch (err) {
       console.log(err.response);
+      setIsLoading(false);
     }
   };
   const handleCoverImage = async () => {
@@ -67,23 +95,63 @@ function UpdateProfile() {
       }
     } catch (err) {
       console.log(err.response);
+      setIsLoading(false);
     }
   };
+  const handlePasswordChange = async () => {
+    try {
+      if (password.newPassword && password.oldPassword) {
+        const res = await axios.patch("/api/v1/users/change-password", {
+          oldPassword: password.oldPassword,
+          newPassword: password.newPassword,
+        });
+        if (res?.data?.success) {
+          dispatch(login(res?.data?.data));
+          setIsLoading(false);
+          navigate("/profile");
+        }
+      } else {
+        setError("both fields are required");
+      }
+    } catch (err) {
+      const startIndex =
+        err.response?.data.indexOf("Error: ") + "Error: ".length;
+      const endIndex = err.response?.data.indexOf("<br>");
+      const errorMessage = err.response?.data.substring(startIndex, endIndex);
+      setIsLoading(false);
+      console.log(errorMessage);
+      setError(errorMessage);
+    }
+  };
+  React.useEffect(() => {
+    if (error) {
+      toast.error(error);
+    }
+  }, [error]);
   return (
     <div className="text-white">
+      <div>
+        <Toaster />
+      </div>
       {page === 1 && (
         <div>
-          <h1 className="font-bold text-center p-3">Username and Email</h1>
+          <h1 className="font-bold text-center p-3">FullName and Email</h1>
           <div className="m-3">
             <div className="p-2">
               <TextField
                 required
                 fullWidth
-                id="username"
-                label="username"
-                name="username"
+                id="fullname"
+                label="Full Name"
+                name="Full Name"
                 autoComplete="family-name"
                 className="bg-gray-200"
+                onChange={(e) =>
+                  setEmailAndFullname({
+                    ...emailAndFullname,
+                    fullName: e.target.value,
+                  })
+                }
               />
             </div>
             <div className="p-2">
@@ -95,15 +163,21 @@ function UpdateProfile() {
                 name="email"
                 autoComplete="email"
                 className="bg-gray-200"
+                onChange={(e) =>
+                  setEmailAndFullname({
+                    ...emailAndFullname,
+                    email: e.target.value,
+                  })
+                }
               />
             </div>
           </div>
           <div className=" flex justify-center items-center mt-auto">
             <button
               className="bg-white font-semibold p-2 rounded-md text-violet-700"
-              onClick={() => navigate("/profile")}
+              onClick={handleEmailChange}
             >
-              Save
+              {isLoading ? <BeatLoader color="rgba(54, 99, 214, 1)" /> : "Save"}
             </button>
           </div>
         </div>
@@ -122,6 +196,9 @@ function UpdateProfile() {
                 name="old password"
                 className="bg-gray-200"
                 type="password"
+                onChange={(e) =>
+                  setPassword({ ...password, oldPassword: e.target.value })
+                }
               />
             </div>
             <div className="p-2">
@@ -133,13 +210,16 @@ function UpdateProfile() {
                 name="new password"
                 className="bg-gray-200"
                 type="password"
+                onChange={(e) =>
+                  setPassword({ ...password, newPassword: e.target.value })
+                }
               />
             </div>
           </div>
           <div className=" flex justify-center items-center mt-auto">
             <button
               className="bg-white font-semibold p-2 rounded-md text-violet-700"
-              onClick={() => navigate("/profile")}
+              onClick={handlePasswordChange}
             >
               Save
             </button>
@@ -210,7 +290,7 @@ function UpdateProfile() {
       >
         {page > 1 && (
           <div
-            className="p-3 cursor-pointer"
+            className="p-3 cursor-pointer border mx-2 border-violet-700"
             onClick={() => setPage((prev) => prev - 1)}
           >
             Prev
@@ -218,7 +298,7 @@ function UpdateProfile() {
         )}
         {page < 4 && (
           <div
-            className="p-3 cursor-pointer"
+            className="p-3 cursor-pointer border mx-2 border-violet-700"
             onClick={() => setPage((prev) => prev + 1)}
           >
             Next

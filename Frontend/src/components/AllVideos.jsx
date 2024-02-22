@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import ActionAreaCard from "../components/HomeCard";
 import { useNavigate } from "react-router-dom";
+import { BeatLoader } from "react-spinners";
 function AllVideos() {
   const navigate = useNavigate();
   const userStatus = useSelector((state) => state.auth.status);
@@ -41,14 +42,14 @@ function AllVideos() {
   // console.log(filteredVideos);
   return (
     <div>
-      {userStatus ? (
+      {!isLoading ? (
         <div>
           <h1 className="text-3xl font-bold text-white mb-10 p-3 ">
             {searchTerm && searchTerm.length > 0
               ? `Videos related to \"${searchTerm}\"`
               : "All Videos"}
           </h1>
-          <ul className="flex gap-16 justify-center flex-wrap">
+          <ul className="grid grid-cols-5 gap-16 justify-center flex-wrap">
             {(filteredVideos || videos)
               ?.slice()
               .reverse()
@@ -63,7 +64,9 @@ function AllVideos() {
           </ul>
         </div>
       ) : (
-        navigate("/login")
+        <div className=" flex justify-center items-center h-screen w-screen">
+          <BeatLoader color="rgba(54, 99, 214, 1)" />
+        </div>
       )}
     </div>
   );

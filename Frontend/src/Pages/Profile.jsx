@@ -39,13 +39,19 @@ function Profile({ admin = true }) {
     getUserInfo();
   }, []);
   console.log(videos);
+  useEffect(() => {
+    if (location.pathname === "/profile/update") {
+      document.body.style.overflowY = "hidden";
+    } else {
+      document.body.style.overflowY = "auto";
+    }
+    return () => {
+      document.body.style.overflowY = "auto";
+    };
+  }, [location.pathname]);
   return (
-    <div
-      className={` flex flex-col justify-center items-center pb-10 ${
-        location.pathname === "/profile/update" && "overflow-y-hidden"
-      }`}
-    >
-      <div>
+    <div className={` flex flex-col justify-center items-center pb-10 `}>
+      <div className={``}>
         <div className={`${location.pathname === "/profile/update" && "blur"}`}>
           <img
             src={userData?.coverImage || coverImage2}

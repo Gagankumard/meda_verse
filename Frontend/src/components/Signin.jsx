@@ -9,7 +9,7 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { login } from "../store/authSlice";
 import toast, { Toaster } from "react-hot-toast";
@@ -18,6 +18,7 @@ export default function SignIn() {
   const [error, setError] = useState();
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const userData = useSelector((state) => state.auth.userData);
   const handleSubmit = async (event) => {
     setError("");
     event.preventDefault();
@@ -37,6 +38,7 @@ export default function SignIn() {
         if (res?.status === 200) {
           console.log("success", res);
           dispatch(login(res?.data?.data?.user));
+
           navigate("/");
         }
       } catch (err) {
@@ -56,6 +58,7 @@ export default function SignIn() {
       toast.error(error);
     }
   }, [error]);
+
   return (
     <Container component="main" maxWidth="xs" className="text-white">
       <div>

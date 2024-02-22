@@ -55,7 +55,7 @@ function AllVideos() {
               .map((vid) => (
                 <li
                   key={vid?._id}
-                  className="hover:shadow-violet-700 hover:shadow-xl transition border-2 border-violet-700 p-2 rounded-md"
+                  className="hover:shadow-violet-700 hover:shadow-xl shadow-lg transition shadow-white border-violet-700 p-2 rounded-md"
                 >
                   <ActionAreaCard {...vid} />
                 </li>

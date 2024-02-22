@@ -5,7 +5,7 @@ import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import { CardActionArea } from "@mui/material";
 import Defaultthumbnail from "../assets/loginPage.jpg";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 export default function ActionAreaCard({
   thumbnail,
   title,
@@ -16,15 +16,20 @@ export default function ActionAreaCard({
   // console.log("owner", owner);
   const [hover, setHover] = React.useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
   const handleClick = () => {
-    navigate(`/${_id}`);
+    if (location.pathname !== "/profile/update") {
+      navigate(`/${_id}`);
+    }
   };
   return (
     <Card sx={{ maxWidth: 250 }} onClick={handleClick}>
       <CardActionArea>
         <div
           className="relative"
-          onMouseOver={() => setHover(true)}
+          onMouseOver={() => {
+            if (location.pathname !== "/profile/update") setHover(true);
+          }}
           onMouseOut={() => setHover(false)}
         >
           <CardMedia

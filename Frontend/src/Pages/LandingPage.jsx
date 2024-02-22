@@ -9,7 +9,37 @@ import MenuComponent from "../components/MenuComponent";
 import LoggedOut from "../components/LoggedOut";
 function LandingPage() {
   const userStatus = useSelector((state) => state.auth.status);
+  const userData = useSelector((state) => state.auth.userData);
+  console.log(userData);
+  if (userStatus) {
+    // Retrieve the access token from cookies
+    function getAccessTokenFromCookies() {
+      console.log("cookie", document.cookie);
+      const cookies = document.cookie.split("; ");
+      console.log("cookie2", cookies);
 
+      for (const cookie of cookies) {
+        const [name, value] = cookie.split("=");
+        if (name === "accessToken") {
+          return value;
+        }
+      }
+      return null; // Return null if access token is not found in cookies
+    }
+
+    // Save the access token to local storage
+    function saveAccessTokenToLocalStorage(accessToken) {
+      localStorage.setItem("accessToken", accessToken);
+    }
+
+    // Get the access token from cookies
+    const accessTokenFromCookies = getAccessTokenFromCookies();
+
+    // Save the access token to local storage if it exists
+    if (accessTokenFromCookies) {
+      saveAccessTokenToLocalStorage(accessTokenFromCookies);
+    }
+  }
   // console.log("search term", serachTerm);
   return (
     <div className="bg-gradient-to-r from-slate-900 to-black min-h-screen ">

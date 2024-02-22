@@ -17,7 +17,7 @@ function UserProfile() {
           `/api/v1/users/get-user-channel/${username}`
         );
         if (res.status === 200) {
-          console.log(res);
+          console.log("sub", res);
           setSubInfo(res?.data?.data);
         }
       } catch (err) {

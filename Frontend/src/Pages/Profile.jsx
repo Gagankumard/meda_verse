@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import coverImage2 from "../assets/proxy (39).jpeg";
 import axios from "axios";
 import ActionAreaCard from "../components/HomeCard";
+import { CgOptions } from "react-icons/cg";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 function Profile({ admin = true }) {
   const [subInfo, setSubInfo] = useState();
@@ -52,7 +53,7 @@ function Profile({ admin = true }) {
   return (
     <div className={` flex flex-col justify-center items-center pb-10 `}>
       <div className={``}>
-        <div className={`${location.pathname === "/profile/update" && "blur"}`}>
+        <div className={`${location.pathname !== "/profile" && "blur"}`}>
           <img
             src={userData?.coverImage || coverImage2}
             alt="coverImage"
@@ -87,26 +88,38 @@ function Profile({ admin = true }) {
             <div className="text-white p-3">
               <button
                 className="p-2 bg-violet-700 rounded-md text-sm hover:bg-violet-900 ring-1 ring-white"
-                onClick={() => navigate("/profile/update")}
+                onClick={() =>
+                  location.pathname === "/profile" &&
+                  navigate("/profile/update")
+                }
               >
                 Update Info
               </button>
             </div>
           </div>
         </div>
-        {location.pathname === "/profile/update" && (
+        {location.pathname !== "/profile" && (
           <div className=" w-[20vw] h-[20vw] top-[40%] left-[40%] bg-black rounded-md z-[9999] border-violet-700 border-spacing-9 border-2 fixed">
             <Outlet />
           </div>
         )}
 
-        <div className={`${location.pathname === "/profile/update" && "blur"}`}>
+        <div className={`${location.pathname !== "/profile" && "blur"}`}>
           <h1 className="text-white font-bold text-3xl p-2">Your Videos</h1>
           <div>
             <ul className="flex gap-10 flex-wrap">
               {videos &&
                 videos.map((vid) => (
                   <li>
+                    <div
+                      className="p-2 bg-gray-400/40 hover:bg-gray-600/10 w-fit rounded-t-md"
+                      onClick={() => {
+                        location.pathname === "/profile" &&
+                          navigate(`/profile/video/update/${vid._id}`);
+                      }}
+                    >
+                      <CgOptions className="text-white" size={24} />
+                    </div>
                     <ActionAreaCard {...vid} />
                   </li>
                 ))}

@@ -18,6 +18,7 @@ import UserProfile from "./Pages/UserProfile.jsx";
 import SubscribedChannels from "./Pages/SubscribedChannels.jsx";
 import WatchHistory from "./Pages/WatchHistory.jsx";
 import UpdateProfile from "./components/UpdateProfile.jsx";
+import UpdateVideo from "./components/UpdateVideo.jsx";
 
 const router = createBrowserRouter([
   {
@@ -47,6 +48,10 @@ const router = createBrowserRouter([
               {
                 path: "/profile/update",
                 element: <UpdateProfile />,
+              },
+              {
+                path: "/profile/video/update/:videoID",
+                element: <UpdateVideo />,
               },
             ],
           },

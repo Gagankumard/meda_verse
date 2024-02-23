@@ -59,9 +59,13 @@ function Profile({ admin = true }) {
             alt="coverImage"
             className="h-64 w-[80vw] object-cover"
           />
-          <div className="flex justify-around">
+          <div className="flex justify-around bg-violet-500/30">
             <div className="p-4 flex gap-16">
-              <Avatar src={userData?.avatar} sx={{ width: 350, height: 350 }} />
+              <Avatar
+                src={userData?.avatar}
+                sx={{ width: 350, height: 350 }}
+                className="ring ring-violet-700"
+              />
               <div className="flex flex-col justify-center items-center">
                 <h1 className="text-4xl font-bold text-white">
                   {userData?.fullName}

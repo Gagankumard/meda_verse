@@ -62,9 +62,13 @@ function UserProfile() {
           alt="coverImage"
           className="h-64 w-[80vw] object-cover"
         />
-        <div className="flex justify-around">
+        <div className="flex justify-around bg-violet-500/30">
           <div className="p-4 flex gap-16">
-            <Avatar src={subInfo?.avatar} sx={{ width: 350, height: 350 }} />
+            <Avatar
+              src={subInfo?.avatar}
+              sx={{ width: 350, height: 350 }}
+              className="ring ring-violet-700"
+            />
             <div className="flex flex-col justify-center items-center">
               <h1 className="text-4xl font-bold text-white">
                 {subInfo?.fullName}
@@ -102,7 +106,7 @@ function UserProfile() {
           </div>
         </div>
         <div className="">
-          <h1 className="text-white font-bold text-3xl p-2">Your Videos</h1>
+          <h1 className="text-white font-bold text-3xl p-2">Videos</h1>
           <div>
             <ul className="flex gap-10 flex-wrap">
               {videos &&

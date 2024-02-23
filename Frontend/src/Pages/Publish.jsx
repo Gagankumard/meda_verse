@@ -99,6 +99,7 @@ function Publish() {
             multiline
             fullWidth
             onChange={(e) => setDescription(e.target.value)}
+            inputProps={{ maxLength: 100 }}
             InputProps={{
               style: {
                 overflowWrap: "break-word", // Wrap long words onto the next line

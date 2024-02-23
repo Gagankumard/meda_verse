@@ -18,7 +18,10 @@ export default function ActionAreaCard({
   const navigate = useNavigate();
   const location = useLocation();
   const handleClick = () => {
-    if (location.pathname !== "/profile/update") {
+    if (
+      location.pathname !== "/profile/update" &&
+      !/^\/profile\/video\/update\/.*/.test(location.pathname)
+    ) {
       navigate(`/${_id}`);
     }
   };
@@ -28,7 +31,11 @@ export default function ActionAreaCard({
         <div
           className="relative"
           onMouseOver={() => {
-            if (location.pathname !== "/profile/update") setHover(true);
+            if (
+              location.pathname !== "/profile/update" &&
+              !/^\/profile\/video\/update\/.*/.test(location.pathname)
+            )
+              setHover(true);
           }}
           onMouseOut={() => setHover(false)}
         >

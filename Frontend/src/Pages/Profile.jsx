@@ -41,7 +41,7 @@ function Profile({ admin = true }) {
   }, []);
   console.log(videos);
   useEffect(() => {
-    if (location.pathname === "/profile/update") {
+    if (location.pathname !== "/profile") {
       document.body.style.overflowY = "hidden";
     } else {
       document.body.style.overflowY = "auto";

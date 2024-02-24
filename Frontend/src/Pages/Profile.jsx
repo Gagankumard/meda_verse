@@ -5,10 +5,15 @@ import coverImage2 from "../assets/proxy (39).jpeg";
 import axios from "axios";
 import ActionAreaCard from "../components/HomeCard";
 import { CgOptions } from "react-icons/cg";
+import { MdPublic } from "react-icons/md";
+import { AiFillLock } from "react-icons/ai";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 function Profile({ admin = true }) {
   const [subInfo, setSubInfo] = useState();
-  const [videos, setVideos] = useState();
+  const [videos, setVideos] = useState([]);
+  const [privateVid, setPrivateVid] = useState([]);
+  const [togglePublic, setTogglePublic] = useState(true);
+
   const navigate = useNavigate();
   const location = useLocation();
   const userData = useSelector((state) => state.auth.userData);
@@ -36,10 +41,21 @@ function Profile({ admin = true }) {
         console.log(err);
       }
     };
+    const fetchPrivateVid = async () => {
+      try {
+        const res = await axios.get("/api/v1/videos/privateVideo");
+        if (res?.data.success) {
+          setPrivateVid(res?.data?.data);
+        }
+      } catch (err) {
+        console.log(err.response);
+      }
+    };
     fetchVideo();
     getUserInfo();
+    fetchPrivateVid();
   }, []);
-  console.log(videos);
+  console.log(privateVid);
   useEffect(() => {
     if (location.pathname !== "/profile") {
       document.body.style.overflowY = "hidden";
@@ -110,23 +126,39 @@ function Profile({ admin = true }) {
 
         <div className={`${location.pathname !== "/profile" && "blur"}`}>
           <h1 className="text-white font-bold text-3xl p-2">Your Videos</h1>
+          <p className="text-violet-700 font-semibold my-5">
+            {togglePublic
+              ? videos.length === 0 && "No videos"
+              : privateVid.length === 0 && "No Private videos"}
+          </p>
+          <div className="flex gap-5 text-white mb-5">
+            <div
+              className={`border-white border rounded-md p-2 w-16 flex ${
+                togglePublic ? "justify-start" : "justify-end"
+              }`}
+              onClick={() => setTogglePublic((prev) => !prev)}
+            >
+              {togglePublic ? <MdPublic /> : <AiFillLock />}
+            </div>
+            <p className="p-2">{togglePublic ? "Public" : "Private"}</p>
+          </div>
+
           <div>
             <ul className="flex gap-10 flex-wrap">
-              {videos &&
-                videos.map((vid) => (
-                  <li>
-                    <div
-                      className="p-2 bg-gray-400/40 hover:bg-gray-600/10 w-fit rounded-t-md"
-                      onClick={() => {
-                        location.pathname === "/profile" &&
-                          navigate(`/profile/video/update/${vid._id}`);
-                      }}
-                    >
-                      <CgOptions className="text-white" size={24} />
-                    </div>
-                    <ActionAreaCard {...vid} />
-                  </li>
-                ))}
+              {(togglePublic ? videos : privateVid)?.map((vid) => (
+                <li key={vid._id}>
+                  <div
+                    className="p-2 bg-gray-400/40 hover:bg-gray-600/10 w-fit rounded-t-md"
+                    onClick={() => {
+                      location.pathname === "/profile" &&
+                        navigate(`/profile/video/update/${vid._id}`);
+                    }}
+                  >
+                    <CgOptions className="text-white" size={24} />
+                  </div>
+                  <ActionAreaCard {...vid} />
+                </li>
+              ))}
             </ul>
           </div>
         </div>

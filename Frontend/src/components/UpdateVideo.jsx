@@ -48,6 +48,7 @@ function UpdateVideo() {
         const res = await axios.get(`/api/v1/videos/fetchVideo/${videoID}`);
         if (res?.data.success) {
           setVid(res?.data?.data[0]);
+          setTogglePublic(res?.data?.data[0]?.isPublished);
         }
       } catch (err) {
         console.log(err.response);
@@ -55,6 +56,7 @@ function UpdateVideo() {
     };
     getVideo();
   }, []);
+
   const handleChangeThumbnail = (file) => {
     setThumbnail(file);
   };
@@ -77,7 +79,7 @@ function UpdateVideo() {
           {
             title: title ? title : vid?.title,
             description: desc,
-            thumbnail: thumbnail,
+            thumbnail: thumbnail || file,
           },
           {
             headers: {
@@ -94,6 +96,17 @@ function UpdateVideo() {
         setIsLoading2(false);
         console.log(err.response);
       }
+    }
+  };
+
+  const handleTogglePublic = async () => {
+    try {
+      const res = await axios.patch(`/api/v1/videos/togglePublish/${vid?._id}`);
+      if (res?.data?.success) {
+        setTogglePublic((prev) => !prev);
+      }
+    } catch (err) {
+      console.log(err.response);
     }
   };
   console.log(title?.trim() !== "" ? title : vid?.title);
@@ -113,6 +126,7 @@ function UpdateVideo() {
       console.log(err.response);
     }
   };
+  console.log("vid", vid, togglePublic);
   return (
     <div className="text-white p-2">
       <h1 className="font-semibold text-center">Update Video</h1>
@@ -127,7 +141,7 @@ function UpdateVideo() {
               className={`border-white border rounded-md p-2 w-16 flex ${
                 togglePublic ? "justify-start" : "justify-end"
               }`}
-              onClick={() => setTogglePublic((prev) => !prev)}
+              onClick={handleTogglePublic}
             >
               {togglePublic ? <MdPublic /> : <AiFillLock />}
             </div>

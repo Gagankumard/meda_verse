@@ -151,14 +151,16 @@ const updateVideo = asyncHandler(async (req, res) => {
     const { videoId } = req.params
     const { title, description } = req.body;
 
-    const thumbnail = req.files?.thumbnail[0]?.path;
+    const thumbnail = req.file?.path
     const oldVideoFile = await Video.findById(videoId)
     const publicId = oldVideoFile.thumbnail.split('/').pop().replace(/\.[^/.]+$/, '');
     console.log(req.body)
     if (req.user._id.equals(oldVideoFile.owner)) {
         // They are equal
         const thumbnailCloudinary = await uploadCloudinary(thumbnail)
-
+        if (!thumbnailCloudinary) {
+            throw new ApiError(400, "Failed to upload the image")
+        }
         const newVideoFile = await Video.findByIdAndUpdate(
             videoId,
             {
@@ -167,6 +169,7 @@ const updateVideo = asyncHandler(async (req, res) => {
                     thumbnail: thumbnailCloudinary?.url
                 }
             })
+
         if (!newVideoFile) {
             throw new ApiError(500, "Failed to update the details")
         }
@@ -182,7 +185,39 @@ const updateVideo = asyncHandler(async (req, res) => {
 
 })
 
+const getPrivateVideos = asyncHandler(async (req, res) => {
+    // const {userID} = req.body ;
+    console.log(req?.user?._id)
+    const videos = await Video.aggregate([
+        {
+            $match: {
+                isPublished: false,
+            }
+        }, {
+            $lookup: {
+                from: "users",
+                localField: "owner",
+                foreignField: "_id",
+                as: "owner",
+                pipeline: [
+                    {
+                        $project: {
+                            fullName: 1,
+                            username: 1,
+                            avatar: 1
+                        }
+                    }
+                ]
+            }
+        },
+        { $match: { "owner._id": new mongoose.Types.ObjectId(req?.user?._id) } }
+    ])
 
+    if (videos.length === 0) {
+        throw new ApiError(404, "No private videos found");
+    }
+    return res.status(200).json(new ApiResponse(200, videos, "private videos successfully fetched"))
+})
 
 const togglePublishStatus = asyncHandler(async (req, res) => {
     const { videoId } = req.params
@@ -215,5 +250,6 @@ export {
     getVideoById,
     updateVideo,
     deleteVideo,
-    togglePublishStatus
+    togglePublishStatus,
+    getPrivateVideos
 }

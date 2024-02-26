@@ -9,9 +9,9 @@ export const SearchBar = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const dispatch = useDispatch();
   return (
-    <form className="border-violet-700 border-2 rounded-md text-white">
+    <form className="border-violet-700 border-2  rounded-md text-white">
       <TextField
-        className="bg-violet-900/60 text-white"
+        className="bg-violet-900/60  text-white"
         onInput={(e) => {
           setSearchQuery(e.target.value);
         }}

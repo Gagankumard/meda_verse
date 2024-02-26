@@ -28,27 +28,63 @@ function MenuComponent({ status }) {
   const menuItems = [
     {
       name: "Home",
-      icon: <HomeIcon style={{ fill: "white", fontSize: 20 }} />,
+      icon: (
+        <HomeIcon
+          style={{
+            fill: location.pathname === "/" ? "violet" : "white",
+            fontSize: 20,
+          }}
+        />
+      ),
       path: "/",
     },
     {
       name: "History",
-      icon: <HistoryIcon style={{ fill: "white", fontSize: 20 }} />,
+      icon: (
+        <HistoryIcon
+          style={{
+            fill: location.pathname === "/history" ? "violet" : "white",
+            fontSize: 20,
+          }}
+        />
+      ),
       path: "/history",
     },
     {
       name: "Subscribed",
-      icon: <SubscriptionsIcon style={{ fill: "white", fontSize: 20 }} />,
+      icon: (
+        <SubscriptionsIcon
+          style={{
+            fill:
+              location.pathname === "/subscribedChannels" ? "violet" : "white",
+            fontSize: 20,
+          }}
+        />
+      ),
       path: "/subscribedChannels",
     },
     {
       name: "Profile",
-      icon: <Face4Icon style={{ fill: "white", fontSize: 20 }} />,
+      icon: (
+        <Face4Icon
+          style={{
+            fill: location.pathname === "/profile" ? "violet" : "white",
+            fontSize: 20,
+          }}
+        />
+      ),
       path: "/profile",
     },
     {
       name: "Publish",
-      icon: <VideoCallIcon style={{ fill: "white", fontSize: 20 }} />,
+      icon: (
+        <VideoCallIcon
+          style={{
+            fill: location.pathname === "/publish" ? "violet" : "white",
+            fontSize: 20,
+          }}
+        />
+      ),
       path: "/publish",
     },
   ];
@@ -60,14 +96,22 @@ function MenuComponent({ status }) {
           {menuItems.map((item, i) => (
             <li
               key={i}
-              className="flex gap-3 align-middle hover:bg-slate-500/40 p-2"
+              className="flex flex-col md:flex-row gap-3 w-fit md:w-auto align-middle hover:bg-slate-500/40 p-2"
               onClick={() => {
                 navigate(item.path);
               }}
             >
-              <div className="py-1">{item.icon} </div>
+              <div
+                className={`py-1  ${
+                  location.pathname === item.path
+                    ? "text-violet-700"
+                    : "text-white"
+                }`}
+              >
+                {item.icon}{" "}
+              </div>
               <p
-                className={`text-xl py-1 cursor-pointer font-semibold ${
+                className={`text-xl py-1 cursor-pointer hidden md:block font-semibold ${
                   location.pathname === item.path
                     ? "text-violet-700"
                     : "text-white"
@@ -85,7 +129,7 @@ function MenuComponent({ status }) {
               <LogoutIcon style={{ fill: "white", fontSize: 20 }} />{" "}
             </div>
             <p
-              className={`text-xl py-1 cursor-pointer text-white font-semibold `}
+              className={`text-xl py-1 cursor-pointer hidden md:block text-white font-semibold `}
             >
               Logout
             </p>

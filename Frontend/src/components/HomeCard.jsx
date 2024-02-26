@@ -26,7 +26,7 @@ export default function ActionAreaCard({
     }
   };
   return (
-    <Card sx={{ maxWidth: 250 }} onClick={handleClick}>
+    <Card sx={{ width: "100%" }} onClick={handleClick}>
       <CardActionArea>
         <div
           className="relative"

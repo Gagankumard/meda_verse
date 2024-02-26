@@ -48,15 +48,18 @@ function LandingPage() {
       </div>
       <div className="flex relative">
         <div className="sticky top-32 h-full  p-4">
-          <div className="flex  align-middle mt-10">
+          <div className="flex  align-middle mt-16 md:mt-10">
             <ListIcon style={{ fill: "violet", fontSize: 40 }} />
-            <label htmlFor="" className="text-white  text-3xl ml-5 font-bold">
+            <label
+              htmlFor=""
+              className="text-white  text-3xl ml-5 font-bold hidden md:block"
+            >
               Menu
             </label>
           </div>
           <MenuComponent status={userStatus} />
         </div>
-        <div className="mx-10 w-[80vw] flex flex-col min-h-screen  pt-36">
+        <div className="mx-10 w-[80vw] flex flex-col min-h-screen mt-16 md:mt-0 pt-36">
           {userStatus ? <Outlet /> : <LoggedOut />}
         </div>
       </div>

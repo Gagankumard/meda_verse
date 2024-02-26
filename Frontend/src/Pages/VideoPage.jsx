@@ -113,23 +113,27 @@ function VideoPage() {
         <h1 className="text-white font-bold text-3xl my-10">
           Play Now..! Watch Now..! Enjoy Now..!
         </h1>
-        <ReactPlayer
-          url={video?.videoFile}
-          playIcon
-          controls={true}
-          config={{
-            youtube: {
-              playerVars: { showinfo: 1 },
-            },
-            facebook: {
-              appId: "12345",
-            },
-          }}
-          height={720}
-          width={1280}
-        />
+        <div
+          className={`xl:h-[720px] xl:w-[1280px] sm:h-360 sm:w-640 lg:h-648 lg:w-1152 flex justify-center items-center`}
+        >
+          <ReactPlayer
+            url={video?.videoFile}
+            playIcon
+            controls={true}
+            config={{
+              youtube: {
+                playerVars: { showinfo: 1 },
+              },
+              facebook: {
+                appId: "12345",
+              },
+            }}
+            width="100%"
+            height="100%"
+          />
+        </div>
         <div className="flex justify-between">
-          <h1 className="text-3xl font-bold text-white my-5 ml-4">
+          <h1 className="text-xl md:text-3xl font-bold text-white my-5 ml-4">
             {video?.title}
           </h1>
           <IoIosArrowDropdownCircle
@@ -157,7 +161,7 @@ function VideoPage() {
             />
 
             <h1
-              className="text-3xl font-semibold p-2 text-violet-700 cursor-pointer"
+              className="text-xl md:text-3xl font-semibold p-2 text-violet-700 cursor-pointer"
               onClick={handleNavigate}
             >
               {video?.owner[0].username}
@@ -167,7 +171,7 @@ function VideoPage() {
             <button
               className={`${
                 !subInfo?.isSubscribed ? "bg-red-600" : "bg-violet-700"
-              } p-4 rounded-md font-semibold antialiased`}
+              } p-2 md:p-4 rounded-md font-semibold antialiased`}
               onClick={handleSubscribe}
             >
               {subInfo?.isSubscribed ? "UnSubscribe" : "Subscribe"}

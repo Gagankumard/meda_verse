@@ -3,11 +3,12 @@ import Header from "../components/Header";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import ActionAreaCard from "../components/HomeCard";
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import ListIcon from "@mui/icons-material/List";
 import MenuComponent from "../components/MenuComponent";
 import LoggedOut from "../components/LoggedOut";
 function LandingPage() {
+  const location = useLocation();
   const userStatus = useSelector((state) => state.auth.status);
   const userData = useSelector((state) => state.auth.userData);
   console.log(userData);
@@ -47,7 +48,17 @@ function LandingPage() {
         <Header stauts={userStatus} />
       </div>
       <div className="flex relative">
-        <div className="sticky top-32 h-full  p-4">
+        <div
+          className={`sticky ${
+            location.pathname === "/" ||
+            location.pathname === "/publish" ||
+            location.pathname === "/profile" ||
+            location.pathname === "/subscribedChannels" ||
+            location.pathname === "/history"
+              ? "block"
+              : "hidden md:block"
+          } top-32  h-full  p-4`}
+        >
           <div className="flex  align-middle mt-16 md:mt-10">
             <ListIcon style={{ fill: "violet", fontSize: 40 }} />
             <label

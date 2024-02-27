@@ -110,7 +110,7 @@ function VideoPage() {
   return (
     <div className=" flex flex-col justify-center items-center pb-10">
       <div className=" ">
-        <h1 className="text-white font-bold text-3xl my-10">
+        <h1 className="text-white opacity-0 md:opacity-100 font-bold text-3xl my-10">
           Play Now..! Watch Now..! Enjoy Now..!
         </h1>
         <div

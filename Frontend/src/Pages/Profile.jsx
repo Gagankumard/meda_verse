@@ -73,9 +73,9 @@ function Profile({ admin = true }) {
           <img
             src={userData?.coverImage || coverImage2}
             alt="coverImage"
-            className="h-64 w-[80vw] object-cover"
+            className="h-24  md:h-64 w-[80vw] object-cover"
           />
-          <div className="flex justify-around bg-violet-500/30">
+          <div className="flex flex-col row:flex-row justify-around bg-violet-500/30">
             <div className="p-4 flex gap-16">
               <Avatar
                 src={userData?.avatar}

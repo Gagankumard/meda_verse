@@ -102,7 +102,7 @@ function Profile({ admin = true }) {
                 <h1 className="text-2xl font-bold">
                   {subInfo?.channelSubscribedToCount}
                 </h1>
-                <p className="text-lg font-semibold">Channel Subscribed to</p>
+                <p className="text-lg font-semibold">Channel Subscribed To</p>
               </div>
             </div>
             <div className="text-white p-3">

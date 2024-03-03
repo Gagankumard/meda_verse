@@ -4,7 +4,7 @@ import SignIn from "../components/Signin";
 function Login() {
   return (
     <div className="bg-gradient-to-r from-slate-900 to-black text-white flex  flex-col-reverse md:flex-row md:h-screen w-screen">
-      <div className="md:lex-1">
+      <div className="md:flex-1">
         <img
           src={loginImg}
           alt="login image"

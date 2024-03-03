@@ -68,7 +68,7 @@ function Publish() {
     }
   }, [error]);
   return (
-    <div>
+    <div className="">
       <div>
         <Toaster />
       </div>
@@ -107,7 +107,7 @@ function Publish() {
             }}
           />
         </div>
-        <div className="flex gap-3">
+        <div className="flex flex-col md:flex-row gap-3">
           {" "}
           <label className="text-white font-semibold text-2xl">Thumbnail</label>
           <FileUploader

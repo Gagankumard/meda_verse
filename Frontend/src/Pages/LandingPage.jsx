@@ -45,7 +45,7 @@ function LandingPage() {
   return (
     <div className="bg-black/65  bg-blend-screen ">
       <div className="relative">
-        <Header stauts={userStatus} />
+        <Header status={userStatus} />
       </div>
       <div className="flex relative">
         <div

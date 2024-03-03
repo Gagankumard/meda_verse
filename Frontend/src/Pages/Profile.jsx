@@ -67,23 +67,25 @@ function Profile({ admin = true }) {
     };
   }, [location.pathname]);
   return (
-    <div className={` flex flex-col justify-center items-center pb-10 `}>
+    <div className={` flex flex-col items-start pb-10 w-[85vw] -ml-12`}>
       <div className={``}>
         <div className={`${location.pathname !== "/profile" && "blur"}`}>
           <img
             src={userData?.coverImage || coverImage2}
             alt="coverImage"
-            className="h-24  md:h-64 w-[80vw] object-cover"
+            className="h-24 lg:ml-0 lg:h-64  w-[80vw] object-cover"
           />
-          <div className="flex flex-col row:flex-row justify-around bg-violet-500/30">
-            <div className="p-4 flex gap-16">
-              <Avatar
-                src={userData?.avatar}
-                sx={{ width: 350, height: 350 }}
-                className="ring ring-violet-700"
-              />
+          <div className="flex flex-col lg:flex-row justify-around bg-violet-500/30 w-[80vw] p-3">
+            <div className="p-4 flex gap-6 lg:gap-16">
+              <div className="w-32 h-32 lg:w-64 lg:h-64">
+                <Avatar
+                  src={userData?.avatar}
+                  sx={{ width: "100%", height: "100%" }}
+                  className="ring ring-violet-700"
+                />
+              </div>
               <div className="flex flex-col justify-center items-center">
-                <h1 className="text-4xl font-bold text-white">
+                <h1 className="text-2xl lg:text-4xl font-bold text-white">
                   {userData?.fullName}
                 </h1>
                 <p className="text-2xl font-semibold text-gray-600">
@@ -91,18 +93,22 @@ function Profile({ admin = true }) {
                 </p>
               </div>
             </div>
-            <div className=" rounded-lg text-white flex justify-center items-center gap-5">
+            <div className=" rounded-lg text-white flex flex-col lg:flex-row justify-center lg:items-center gap-5 ">
               <div className="flex flex-col justify-center items-center bg-violet-700 p-2 rounded-md">
-                <h1 className="text-2xl font-bold">
+                <h1 className="text-lg lg:text-2xl font-bold">
                   {subInfo?.subscribersCount}
                 </h1>
-                <p className="text-lg font-semibold">Subscribers Count</p>
+                <p className="text-md lg:text-lg font-semibold">
+                  Subscribers Count
+                </p>
               </div>
               <div className="flex flex-col justify-center items-center bg-violet-700 p-2 rounded-md">
-                <h1 className="text-2xl font-bold">
+                <h1 className="text-lg lg:text-2xl font-bold">
                   {subInfo?.channelSubscribedToCount}
                 </h1>
-                <p className="text-lg font-semibold">Channel Subscribed To</p>
+                <p className="text-md lg:text-lg font-semibold">
+                  Channel Subscribed To
+                </p>
               </div>
             </div>
             <div className="text-white p-3">
@@ -119,7 +125,7 @@ function Profile({ admin = true }) {
           </div>
         </div>
         {location.pathname !== "/profile" && (
-          <div className=" w-[20vw] h-[20vw] top-[40%] left-[40%] bg-black rounded-md z-[9999] border-violet-700 border-spacing-9 border-2 fixed">
+          <div className=" lg:w-[20vw] lg:h-[20vw] top-[40%] left-[20%] lg:left-[40%] bg-black rounded-md z-[9999] border-violet-700 border-spacing-9 border-2 fixed">
             <Outlet />
           </div>
         )}

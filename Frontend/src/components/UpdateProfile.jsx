@@ -129,7 +129,7 @@ function UpdateProfile() {
     }
   }, [error]);
   return (
-    <div className="text-white">
+    <div className="text-white mb-3 lg:mb-0">
       <div>
         <Toaster />
       </div>
@@ -230,14 +230,14 @@ function UpdateProfile() {
         <div className="mt-10">
           <h1 className="font-bold text-center p-3">Avatar</h1>
           <div className="m-3">
-            <div className="p-2 flex">
+            <div className="p-2 flex flex-col md:flex-row">
               <label htmlFor="" className="pr-2">
                 Avatar
               </label>
               <TextField
                 id="avatar"
                 name="Avatar"
-                className="bg-gray-200"
+                className="bg-gray-200 w-56"
                 type="file"
                 onChange={(e) =>
                   setFile({ ...file, avatar: e.target.files[0] })

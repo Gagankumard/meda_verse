@@ -128,7 +128,7 @@ function UpdateVideo() {
   };
   console.log("vid", vid, togglePublic);
   return (
-    <div className="text-white p-2">
+    <div className="text-white p-2 ">
       <h1 className="font-semibold text-center">Update Video</h1>
       <div className="flex mt-3 gap-5">
         <div className="w-36 h-16 object-contain overflow-hidden">

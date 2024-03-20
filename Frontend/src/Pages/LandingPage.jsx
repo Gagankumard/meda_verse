@@ -47,7 +47,9 @@ function LandingPage() {
       <div className="relative">
         <Header status={userStatus} />
       </div>
-      <div className="flex relative">
+      <div
+        className={`flex ${!userStatus && "flex-col"}  md:flex-row relative`}
+      >
         <div
           className={`sticky ${
             location.pathname === "/" ||

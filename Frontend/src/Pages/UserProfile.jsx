@@ -14,7 +14,10 @@ function UserProfile() {
     const getUserInfo = async () => {
       try {
         const res = await axios.get(
-          `/api/v1/users/get-user-channel/${username}`
+          `https://playitnow-backend.playitnow.co/api/v1/users/get-user-channel/${username}`,
+          {
+            withCredentials: true,
+          }
         );
         if (res.status === 200) {
           console.log("sub", res);
@@ -30,9 +33,14 @@ function UserProfile() {
   useEffect(() => {
     const fetchVideo = async () => {
       try {
-        const res = await axios.get("/api/v1/videos/getAllVideos", {
-          params: { userId: subInfo?._id },
-        });
+        const res = await axios.get(
+          "https://playitnow-backend.playitnow.co/api/v1/videos/getAllVideos",
+          {
+            params: { userId: userData?._id },
+            withCredentials: true, // This option should be included here
+          }
+        );
+
         setVideos(res?.data?.data);
       } catch (err) {
         console.log(err);
@@ -43,7 +51,11 @@ function UserProfile() {
   const handleSubscribe = async () => {
     try {
       const res = await axios.post(
-        `/api/v1/subscription/toggleSubscribe/${subInfo?._id}`
+        `https://playitnow-backend.playitnow.co/api/v1/subscription/toggleSubscribe/${subInfo?._id}`,
+        {},
+        {
+          withCredentials: true,
+        }
       );
       if (res.status === 200 || res.status === 201) {
         setRender((prev) => !prev);

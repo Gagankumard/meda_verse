@@ -25,8 +25,10 @@ export default function SignUp() {
   const dispatch = useDispatch();
   const [error, setError] = React.useState();
   const [isLoading, setIsLoading] = React.useState(false);
+
   const [avatar, setAvatar] = React.useState();
   const [coverImage, setCoverImage] = React.useState();
+  console.log(coverImage);
   const handleSubmit = async (event) => {
     setIsLoading(true);
     event.preventDefault();
@@ -51,7 +53,7 @@ export default function SignUp() {
       try {
         // console.log("hello");
         const res = await axios.post(
-          "/api/v1/users/register",
+          "https://playitnow-backend.playitnow.co/api/v1/users/register",
           {
             email: data.get("email"),
             password: data.get("password"),
@@ -64,6 +66,7 @@ export default function SignUp() {
             headers: {
               "Content-Type": "multipart/form-data",
             },
+            withCredentials: true, // This option should be included here
           }
         );
         console.log("hello", res);
@@ -165,7 +168,7 @@ export default function SignUp() {
                   className="bg-gray-200"
                 />
               </Grid>
-              <Grid item xs={12} className="flex flex-col">
+              <Grid item xs={12} className="flex flex-col md:flex-row">
                 <label htmlFor="" className="text-white font-semibold mr-2">
                   Avatar *
                 </label>
@@ -174,11 +177,11 @@ export default function SignUp() {
                   type="file"
                   placeholder="avatar"
                   name="avatar"
-                  className="h-10 bg-gray-200 ml-9 text-black p-2"
+                  className="h-10 bg-gray-200 ml-9 text-black p-2 w-[60vw] md:w-auto"
                   onChange={(e) => setAvatar(e.target.files[0])}
                 />
               </Grid>
-              <Grid item xs={12}>
+              <Grid item xs={12} className="flex flex-col md:flex-row">
                 <label htmlFor="" className="text-white font-semibold mr-2">
                   Cover Image
                 </label>
@@ -186,7 +189,7 @@ export default function SignUp() {
                   type="file"
                   placeholder="Cover image"
                   name="coverImage"
-                  className="h-10 bg-gray-200 text-black p-2"
+                  className="h-10 bg-gray-200 text-black p-2 truncate w-[60vw] md:w-auto"
                   onChange={(e) => setCoverImage(e.target.files[0])}
                 />
               </Grid>

@@ -17,7 +17,13 @@ function MenuComponent({ status }) {
   const location = useLocation();
   const handleLogout = async () => {
     try {
-      const res = await axios.post("/api/v1/users/logout");
+      const res = await axios.post(
+        "https://playitnow-backend.playitnow.co/api/v1/users/logout",
+        {},
+        {
+          withCredentials: true,
+        }
+      );
       if (res.status === 200) {
         dispatch(logout());
       }
@@ -90,7 +96,7 @@ function MenuComponent({ status }) {
   ];
   console.log(status);
   return (
-    <div className="antialiased">
+    <div className="antialiased bg-white/20 md:bg-transparent">
       {status ? (
         <ul className="flex flex-col justify-start gap-4 mt-10">
           {menuItems.map((item, i) => (
@@ -138,7 +144,7 @@ function MenuComponent({ status }) {
       ) : (
         <ul className="flex flex-col justify-start gap-4 mt-10">
           <li
-            className="flex gap-3 align-middle hover:bg-slate-500/40 p-2"
+            className="flex  gap-3 align-middle hover:bg-slate-500/40 p-2"
             onClick={() => {
               navigate("/login");
             }}

@@ -28,10 +28,16 @@ function UpdateProfile() {
     try {
       setIsLoading(true);
       if (emailAndFullname.email || emailAndFullname.fullName) {
-        const res = await axios.patch("/api/v1/users/update-account-details", {
-          email: emailAndFullname.email || userData.email,
-          fullName: emailAndFullname.fullName || userData.fullName,
-        });
+        const res = await axios.patch(
+          "https://playitnow-backend.playitnow.co/api/v1/users/update-account-details",
+          {
+            email: emailAndFullname.email || userData.email,
+            fullName: emailAndFullname.fullName || userData.fullName,
+          },
+          {
+            withCredentials: true,
+          }
+        );
         if (res?.data?.success) {
           dispatch(login(res?.data?.data));
           setIsLoading(false);
@@ -53,12 +59,13 @@ function UpdateProfile() {
       if (file.avatar) {
         setIsLoading(true);
         const res = await axios.patch(
-          "/api/v1/users/update-avatar",
+          "https://playitnow-backend.playitnow.co/api/v1/users/update-avatar",
           { avatar: file.avatar },
           {
             headers: {
               "Content-Type": "multipart/form-data",
             },
+            withCredentials: true, // This option should be included here
           }
         );
         if (res?.data?.success) {
@@ -78,12 +85,13 @@ function UpdateProfile() {
       if (file.coverImage) {
         setIsLoading(true);
         const res = await axios.patch(
-          "/api/v1/users/update-cover-image",
+          "https://playitnow-backend.playitnow.co/api/v1/users/update-cover-image",
           { coverImage: file.coverImage },
           {
             headers: {
               "Content-Type": "multipart/form-data",
             },
+            withCredentials: true, // This option should be included here
           }
         );
         if (res?.data?.success) {
@@ -101,10 +109,16 @@ function UpdateProfile() {
   const handlePasswordChange = async () => {
     try {
       if (password.newPassword && password.oldPassword) {
-        const res = await axios.patch("/api/v1/users/change-password", {
-          oldPassword: password.oldPassword,
-          newPassword: password.newPassword,
-        });
+        const res = await axios.patch(
+          "https://playitnow-backend.playitnow.co/api/v1/users/change-password",
+          {
+            oldPassword: password.oldPassword,
+            newPassword: password.newPassword,
+          },
+          {
+            withCredentials: true,
+          }
+        );
         if (res?.data?.success) {
           dispatch(login(res?.data?.data));
           setIsLoading(false);
@@ -259,13 +273,13 @@ function UpdateProfile() {
         <div className="mt-10">
           <h1 className="font-bold text-center p-3">Cover Image</h1>
           <div className="m-3">
-            <div className="p-2 flex">
+            <div className="p-2 flex flex-col md:flex-row">
               <label htmlFor="" className="pr-2">
                 Cover Image
               </label>
               <TextField
                 id="coverImage"
-                className="bg-gray-200"
+                className="bg-gray-200 w-56"
                 type="file"
                 onChange={(e) =>
                   setFile({ ...file, coverImage: e.target.files[0] })

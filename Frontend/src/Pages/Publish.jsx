@@ -34,7 +34,7 @@ function Publish() {
       } else {
         setIsLoading(true);
         const res = await axios.post(
-          "/api/v1/videos/publish",
+          "https://playitnow-backend.playitnow.co/api/v1/videos/publish",
           {
             title,
             description,
@@ -45,6 +45,7 @@ function Publish() {
             headers: {
               "Content-Type": "multipart/form-data",
             },
+            withCredentials: true, // This option should be included here
           }
         );
         if (res.status === 202) {
@@ -68,7 +69,7 @@ function Publish() {
     }
   }, [error]);
   return (
-    <div className="">
+    <div className="-ml-8 md:ml-auto">
       <div>
         <Toaster />
       </div>

@@ -13,13 +13,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { login } from "../store/authSlice";
 import toast, { Toaster } from "react-hot-toast";
+import { BeatLoader } from "react-spinners";
 
 export default function SignIn() {
   const [error, setError] = useState();
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const userData = useSelector((state) => state.auth.userData);
   const handleSubmit = async (event) => {
+    setIsLoading(true);
     setError("");
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -31,14 +34,20 @@ export default function SignIn() {
       setError("All fields are required");
     } else {
       try {
-        const res = await axios.post("/api/v1/users/login", {
-          email: data.get("email"),
-          password: data.get("password"),
-        });
+        const res = await axios.post(
+          "https://playitnow-backend.playitnow.co/api/v1/users/login",
+          {
+            email: data.get("email"),
+            password: data.get("password"),
+          },
+          {
+            withCredentials: true,
+          }
+        );
         if (res?.status === 200) {
           console.log("success", res);
           dispatch(login(res?.data?.data?.user));
-
+          setIsLoading(false);
           navigate("/");
         }
       } catch (err) {
@@ -46,7 +55,7 @@ export default function SignIn() {
           err.response?.data.indexOf("Error: ") + "Error: ".length;
         const endIndex = err.response?.data.indexOf("<br>");
         const errorMessage = err.response?.data.substring(startIndex, endIndex);
-
+        setIsLoading(false);
         // console.log(errorMessage);
         setError(errorMessage);
         // console.log(err);
@@ -98,15 +107,20 @@ export default function SignIn() {
             autoComplete="current-password"
             className="bg-gray-200"
           />
-
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            sx={{ mt: 3, mb: 2 }}
-          >
-            Sign In
-          </Button>
+          {isLoading ? (
+            <div className=" flex justify-center items-center my-10">
+              <BeatLoader color="rgba(54, 99, 214, 1)" />
+            </div>
+          ) : (
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              sx={{ mt: 3, mb: 2 }}
+            >
+              Sign In
+            </Button>
+          )}
           {/* {error && (
             <p className="text-2xl font-semibold text-red-600">{error}</p>
           )} */}
